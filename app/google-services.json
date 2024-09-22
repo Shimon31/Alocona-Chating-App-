@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "791530113195",
+    "project_id": "alocona-chating-app",
+    "storage_bucket": "alocona-chating-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791530113195:android:1ad8720146347789c4cfee",
+        "android_client_info": {
+          "package_name": "com.iaa2401.aloconachattingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVrkpsOFSgQoyQ_Jc_Dzx3HJ1gWmx0C0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
