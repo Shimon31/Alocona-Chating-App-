@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -12,24 +13,25 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+
 import com.iaa2401.aloconachattingapp.databinding.FragmentProfileBinding
+import com.iaa2401.aloconachattingapp.databinding.FragmentProfileEditBinding
 
 
-class ProfileFragment : Fragment() {
+class ProfileEditFragment : Fragment() {
 
-    lateinit var binding: FragmentProfileBinding
+    lateinit var binding: FragmentProfileEditBinding
 
     lateinit var userDB : DatabaseReference
 
     private var userId = ""
 
-    private var bundle = Bundle()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       binding = FragmentProfileBinding.inflate(layoutInflater,container,false)
+        binding = FragmentProfileEditBinding.inflate(layoutInflater,container,false)
 
         userDB = FirebaseDatabase.getInstance().reference
 
@@ -44,25 +46,25 @@ class ProfileFragment : Fragment() {
         }
 
 
-        FirebaseAuth.getInstance().currentUser?.let {
+        binding.saveBtn.setOnClickListener {
 
-            if (it.uid == userId){
+            var userMap : MutableMap<String,Any> = mutableMapOf()
 
-                binding.letsChatBtn.text = EDIT
+            userMap["fullName"] = binding.fullName.text.toString().trim()
+            userMap["bio"] = binding.bioTV.text.toString().trim()
 
-            }else{
-                binding.letsChatBtn.text = CHAT
+
+            userDB.child(DBNODES.USER).child(userId).updateChildren(userMap).addOnCompleteListener { task ->
+
+                if (task.isSuccessful){
+                    Toast.makeText(requireContext(), "Successfully Updated", Toast.LENGTH_SHORT).show()
+
+                }else{
+                    Toast.makeText(requireContext(), "${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
-        }
-
-        binding.letsChatBtn.setOnClickListener {
-
-            if (binding.letsChatBtn.text == EDIT){
-                bundle.putString(USERID,userId)
-                findNavController().navigate(R.id.action_profileFragment_to_profileEditFragment,bundle)
-
-            }
 
         }
 
@@ -70,28 +72,17 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
-
-    companion object{
-
-
-        private var EDIT = "Lets Edit"
-        private var CHAT = "Lets Chat"
-        private var USERID = "id"
-
-    }
-
     private fun getUSerById(userId: String) {
 
         userDB.child(DBNODES.USER).child(userId).addValueEventListener(
-            object  : ValueEventListener{
+            object  : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.getValue(User ::class.java)?.let {
 
                         binding.apply {
 
-                            fullName.text = it.fullName
-                            bioTV.text = it.bio
-                            emailTV.text = it.email
+                            fullName.setText( it.fullName)
+                            bioTV.setText(it.bio)
                         }
 
                     }

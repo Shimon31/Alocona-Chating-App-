@@ -67,4 +67,8 @@ dependencies {
     // Views/Fragments integration
     implementation("androidx.navigation:navigation-fragment:$nav_version")
     implementation("androidx.navigation:navigation-ui:$nav_version")
+
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation("io.coil-kt:coil-compose:2.7.0")
 }
