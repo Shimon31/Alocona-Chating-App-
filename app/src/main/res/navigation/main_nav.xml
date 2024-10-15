@@ -52,4 +52,9 @@
         android:name="com.iaa2401.aloconachattingapp.ProfileEditFragment"
         android:label="fragment_profile_edit"
         tools:layout="@layout/fragment_profile_edit" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.iaa2401.aloconachattingapp.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>
