@@ -71,4 +71,14 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
     implementation("io.coil-kt:coil-compose:2.7.0")
+
+    implementation(libs.dexter)
+
+
+    //image picker
+    implementation("com.github.dhaval2404:imagepicker:2.1")
+
+    implementation("androidx.activity:activity-ktx:1.9.2")
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
+
 }
