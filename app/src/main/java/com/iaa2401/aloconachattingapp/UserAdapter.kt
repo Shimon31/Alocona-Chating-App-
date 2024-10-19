@@ -1,21 +1,27 @@
 package com.iaa2401.aloconachattingapp
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.bumptech.glide.Glide
 import com.iaa2401.aloconachattingapp.databinding.ProfileItemBinding
 
 class UserAdapter(var itemClick: ItemClick) : ListAdapter<User, UserViewHolder>(comparator) {
 
-    interface ItemClick{
+    lateinit var context: Context
 
-        fun onItemClick(user:User)
+    interface ItemClick {
+
+        fun onItemClick(user: User)
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
+        context = parent.context
         return UserViewHolder(
             ProfileItemBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -34,6 +40,9 @@ class UserAdapter(var itemClick: ItemClick) : ListAdapter<User, UserViewHolder>(
                 pfName.text = it.fullName
                 gmailName.text = it.email
                 bioTV.text = it.bio
+
+                Glide.with(context).load(it.profilePic).placeholder(R.drawable.placeholder)
+                    .into(profileIV)
             }
 
             holder.itemView.setOnClickListener { _ ->
@@ -48,15 +57,15 @@ class UserAdapter(var itemClick: ItemClick) : ListAdapter<User, UserViewHolder>(
 
     }
 
-    companion object{
+    companion object {
 
-        var comparator = object : DiffUtil.ItemCallback<User>(){
+        var comparator = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-                return oldItem==newItem
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-                return oldItem== newItem
+                return oldItem == newItem
             }
 
 

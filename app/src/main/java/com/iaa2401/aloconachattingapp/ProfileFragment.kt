@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.graphics.findFirstRoot
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -58,11 +60,14 @@ class ProfileFragment : Fragment() {
         }
 
         binding.letsChatBtn.setOnClickListener {
-
+            bundle.putString(USERID,userId)
             if (binding.letsChatBtn.text == EDIT){
-                bundle.putString(USERID,userId)
+
                 findNavController().navigate(R.id.action_profileFragment_to_profileEditFragment,bundle)
 
+            }else{
+
+                findNavController().navigate(R.id.action_profileFragment_to_chatFragment,bundle)
             }
 
         }
@@ -93,7 +98,8 @@ class ProfileFragment : Fragment() {
                             fullName.text = it.fullName
                             bioTV.text = it.bio
                             emailTV.text = it.email
-                            profileIV.load(it.profilePic)
+                            Glide.with(requireContext()).load(it.profilePic).placeholder(R.drawable.placeholder)
+                                .into(profileIV)
 
                         }
 
