@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.iaa2401.aloconachattingapp.databinding.SendMesageItemBinding
 
-class ChatAdapter(var userIdSelf: String) : ListAdapter<TextMessage, chatViewHolder>(comaprator) {
+class ChatAdapter(private var userIdSelf: String, private val chatList: MutableList<TextMessage>) :
+    RecyclerView.Adapter<chatViewHolder>() {
 
-    val chatList = mutableListOf<TextMessage>()
 
     var Right = 1
     var Left = 2
@@ -24,7 +24,7 @@ class ChatAdapter(var userIdSelf: String) : ListAdapter<TextMessage, chatViewHol
             var view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.send_mesage_item, parent, false)
             return chatViewHolder(view)
-        }else{
+        } else {
 
             var view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.receive_mesage_item, parent, false)
@@ -34,22 +34,26 @@ class ChatAdapter(var userIdSelf: String) : ListAdapter<TextMessage, chatViewHol
     }
 
     override fun onBindViewHolder(holder: chatViewHolder, position: Int) {
+        val message = chatList[position]
 
-        getItem(position).apply {
+            holder.messageTV.text = message.text
 
-            chatList.add(this)
-            holder.messageTV.text = this.text
-        }
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (chatList[position].senderID == userIdSelf){
+        return if (chatList[position].senderID == userIdSelf) {
 
-            return Right
-        }else{
-            return Left
+            Right
+        } else {
+            Left
         }
+    }
+
+    override fun getItemCount(): Int {
+
+        return chatList.size
+
     }
 
     companion object {
@@ -70,7 +74,7 @@ class ChatAdapter(var userIdSelf: String) : ListAdapter<TextMessage, chatViewHol
 
 }
 
-class chatViewHolder(ItemView : View) : RecyclerView.ViewHolder(ItemView) {
+class chatViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
 
     var messageTV: TextView = itemView.findViewById(R.id.chatTV)
 

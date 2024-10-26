@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.bumptech.glide.Glide
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -71,9 +72,7 @@ class HomeFragment : Fragment(), UserAdapter.ItemClick {
 
         getAvailableUSer()
 
-
         return binding.root
-
 
     }
 
@@ -91,7 +90,8 @@ class HomeFragment : Fragment(), UserAdapter.ItemClick {
                     } else {
                         currentUser = user
 
-                binding.profileBtn.load(user.profilePic)
+                        Glide.with(requireContext()).load(user.profilePic).placeholder(R.drawable.placeholder)
+                            .into(binding.profileBtn)
 
                     }
 
